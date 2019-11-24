@@ -5,9 +5,14 @@
     $prix_ht = 949.00;
     $qtt_stock = 5;
     $tx_tva = 20;
+    $sustain_pedal = true;
+
+    // On veut le prix TTC
+    $prix_ttc = $prix_ht * (1 + $tx_tva / 100);
 
     // On veut 2 décimales après la virgule pour le prix
-    $prix_ht_formate = number_format($prix_ht, 2); 
+    $prix_ttc_formate = number_format($prix_ttc, 2); 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,10 +31,22 @@
             <?php echo $nom; ?>
         </h1>
         <p>
-            <?php echo "$prix_ht_formate € (HT)"; ?> 
+            <?php echo "$prix_ttc_formate € (TTC)"; ?> 
         </p>
         <p>
-            Stock disponible : <?= $qtt_stock // Equivaut à <?php echo $qtt_stock ?>
+            <?php
+                if ($qtt_stock == 0 ) {
+                    echo 'Pas de stock disponible';
+                } else {
+                    echo 'Stock disponible : ' . $qtt_stock;
+                    if ($qtt_stock < 10 ) {
+                        echo ' (dépêchez-vous de commander !)';
+                    } 
+                }
+            ?>
         </p>
+        <?php 
+            if ($sustain_pedal) echo '<p>Possède une pédale de sustain.</p>'; 
+        ?>
     </body>
 </html>
