@@ -3,11 +3,11 @@
     $nb_produits = 2;
 
     // Propriétés du produit
-    $nom = 'Casio AP 470 noir';
-    $prix_ht = 949.00;
-    $qtt_stock = 5;
+    $nom = 'Yamaha P45';
+    $prix_ht = 395.00;
+    $qtt_stock = 0;
     $tx_tva = 20;
-    $sustain_pedal = true;
+    $sustain_pedal = false;
 
     // On veut le prix TTC
     $prix_ttc = $prix_ht * (1 + $tx_tva / 100);
