@@ -1,3 +1,12 @@
+<?php
+    // On veut le prix TTC
+    $prix_ttc = calcul_prix_ttc($prix_ht, $tx_tva);
+
+    // On veut 2 décimales après la virgule pour le prix
+    $prix_ttc_formate = number_format_fr($prix_ttc);
+
+    include_once 'utilities.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,57 +32,13 @@
             <?php echo "$prix_ttc_formate € (TTC)"; ?> 
         </p>
         <p>
-            <?php
-                if ($qtt_stock == 0 ) {
-                    echo 'Pas de stock disponible';
-                } else {
-                    echo 'Stock disponible : ' . $qtt_stock;
-                    if ($qtt_stock < 10 ) {
-                        echo ' (dépêchez-vous de commander !)';
-                    } 
-                }
-            ?>
+            <?php afficher_stock($qtt_stock); ?>
         </p>
         <?php 
             if ($sustain_pedal) echo '<p>Possède une pédale de sustain.</p>'; 
         ?>
         <?php 
-            if ($prix_ttc > 500) {
-                echo '<h2>Paiement en plusieurs fois :</h2>';
-                
-                $num_mois = 2;
-                $reste = $prix_ttc;
-
-                echo '<table>';
-                    echo '<thead>';
-                        echo '<tr>';
-                            echo '<th>Mois</th>';
-                            echo '<th>Montant TTC</th>';
-                        echo '</tr>';
-                    echo '</thead>';
-                    echo '<tbody>';
-                        while ($reste > 500) {
-                            $reste = $reste - 500;
-                            $ligne_classe = ($num_mois / 2) % 2 == 0 ? 'sombre' : '';
-                            echo "<tr class=$ligne_classe>";
-                            echo "<td>$num_mois</td>";
-                            echo '<td>500,00 €</td>';
-                            echo '</tr>';
-                            $num_mois = $num_mois + 2; 
-                        }
-                        $ligne_classe = ($num_mois / 2) % 2 == 0 ? 'sombre' : '';
-                        echo "<tr class=$ligne_classe>";
-                            echo "<td>$num_mois</td>";
-                            echo '<td>' . number_format($reste, 2, ',', ' ') . ' €</td>';
-                        echo '</tr>';                    
-                        echo '<tr>';
-                            echo "<td><bold>Total</bold></td>";
-                            echo '<td>' . $prix_ttc_formate . ' €</td>';                        
-                        echo '</tr>';                    
-                    echo '</tbody>';
-                echo '</table>';
-
-            }
+            afficher_mensualites($prix_ttc, $prix_ttc_formate);
         ?>
     </body>
 </html>
