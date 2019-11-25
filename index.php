@@ -1,5 +1,3 @@
-<?php $nb_produits = 2; ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +7,7 @@
     <title>Accueil</title>
 </head>
 <body>
-    <ul>
-        <li><a href="index.php">Accueil</a></li>
-        <?php for ($i=1; $i<=$nb_produits; $i++) : ?>
-            <li><a href="<?= "product-$i.php" ?>">Produit <?= $i ?></a></li>
-        <?php endfor; ?>
-    </ul>
+    <?php include 'menu.php'; ?>
     <h1>Bienvenue sur notre catalogue</h1>
 </body>
 </html>
