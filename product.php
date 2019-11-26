@@ -1,8 +1,34 @@
 <?php
+    // Si un paramètre wish a été transmis on complète la wishlist en cookie
+    if (isset($_GET['wish'])) {
+        
+        $timestamp_expiration = time() + 60 * 60 * 24 * 10; // Expire dans 10 jours
+        
+        // Si on a déjà un cookie
+        if (isset($_COOKIE['wish'])) {
+            // On concatène le nom du produit aux précédents avec un signe *
+            $deja_ajoute = $_COOKIE['wish']; 
+            setcookie('wish', $deja_ajoute . '*' . $_GET['wish'], $timestamp_expiration);
+        
+        // Sinon on crée le cookie
+        } else {
+            setcookie('wish', $_GET['wish'], $timestamp_expiration); 
+        }
+        
+        // On doit rafraichir la page (sans renvoyer les paramètres) pour appliquer les cookies
+        $uri_parts = explode('?', $_SERVER['REQUEST_URI']);
+        header("Refresh:0; url='" . $uri_parts[0] . "'");
+    }
+
+    echo '<pre>';
+    echo 'Valeur du cookie :';
+    print_r($_COOKIE);
+    echo '</pre>';
+
     setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
     
     $timestamp = strtotime($produit['date_dispo']);
-    $date_fr = strftime('%d/%m/%Y', $timestamp);
+    $date_fr = strftime('%x', $timestamp);
     $timestamp_courant = time();
     
     // On veut le prix TTC
@@ -21,7 +47,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Accueil</title>
         <style>
-            table > tbody > tr:nth-last-child(1) > td {
+            table.paiement > tbody > tr:nth-last-child(1) > td {
                 font-weight: bold;
             }
             .sombre {
@@ -53,5 +79,28 @@
             <?php else : ?>
                 Mise à disposition dans <?= nb_jours_entre_timestamps($timestamp, $timestamp_courant); ?> jours.
             <?php endif ?>
+        </p>
+
+        <a href="?wish=<?= $produit['nom'] ?>">Ajouter à la wishlist</a>
+        
+        <!-- On affiche la wish list si un cookie est présent -->
+        <?php if (isset($_COOKIE['wish'])) : ?>
+            <h2>Wishlist</h2>
+            <table>
+                <?php 
+                    // Les noms de produit sont séparés par *
+                    // On en fait un tableau php
+                    $produits = explode('*', $_COOKIE['wish']); 
+
+                    // A chaque tour de boucle on ajoute une ligne html
+                    // pour afficher le nom du produit 
+                    foreach ($produits as $nom_produit) : 
+                ?>
+
+                    <tr><td><?= $nom_produit ?></td></tr>
+                
+                <?php endforeach; ?>
+            </table>
+        <?php endif ?>
     </body>
 </html>

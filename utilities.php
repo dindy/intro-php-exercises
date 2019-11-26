@@ -28,7 +28,7 @@
             $num_mois = 2;
             $reste = $prix_ttc;
 
-            echo '<table>';
+            echo '<table class="paiement">';
                 echo '<thead>';
                     echo '<tr>';
                         echo '<th>Mois</th>';
