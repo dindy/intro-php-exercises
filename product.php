@@ -1,4 +1,10 @@
 <?php
+    setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
+    
+    $timestamp = strtotime($produit['date_dispo']);
+    $date_fr = strftime('%d/%m/%Y', $timestamp);
+    $timestamp_courant = time();
+    
     // On veut le prix TTC
     $prix_ttc = calcul_prix_ttc($produit['prix_ht'], $produit['tx_tva']);
 
@@ -41,5 +47,11 @@
         <?php 
             afficher_mensualites($prix_ttc, $prix_ttc_formate);
         ?>
+        <p>
+            <?php if($timestamp_courant - $timestamp > 0) : ?>
+                Disponible depuis le <?= $date_fr ?></p>
+            <?php else : ?>
+                Mise à disposition dans <?= nb_jours_entre_timestamps($timestamp, $timestamp_courant); ?> jours.
+            <?php endif ?>
     </body>
 </html>

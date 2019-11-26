@@ -1,3 +1,5 @@
+<?php include_once 'data.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +13,6 @@
     <h1>Bienvenue sur notre catalogue</h1>
     <ul>
         <?php 
-            include_once 'data.php';
             foreach ($catalogue as $categorie => $produits) : 
         ?>
             <li><?= $categorie ?></li>

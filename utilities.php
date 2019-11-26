@@ -1,4 +1,5 @@
 <?php 
+
     function calcul_prix_ttc($prix_ht, $tx_tva) {
         return $prix_ht * (1 + $tx_tva / 100);
     }
@@ -56,4 +57,8 @@
                 echo '</tbody>';
             echo '</table>';
         }
+    }
+
+    function nb_jours_entre_timestamps($t1, $t2):int {
+        return (((($t1 - $t2) / 60) / 60) / 24);
     }
