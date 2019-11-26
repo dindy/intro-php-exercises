@@ -1,4 +1,4 @@
-<?php $nb_produits = 2; ?>
+<?php $nb_produits = 3; ?>
 <ul>
     <li><a href="index.php">Accueil</a></li>
     <?php for ($i=1; $i<=$nb_produits; $i++) : ?>

@@ -1,6 +1,6 @@
 <?php
     // On veut le prix TTC
-    $prix_ttc = calcul_prix_ttc($prix_ht, $tx_tva);
+    $prix_ttc = calcul_prix_ttc($produit['prix_ht'], $produit['tx_tva']);
 
     // On veut 2 décimales après la virgule pour le prix
     $prix_ttc_formate = number_format_fr($prix_ttc);
@@ -26,16 +26,17 @@
     <body>
         <?php include 'menu.php'; ?>
         <h1>
-            <?php echo $nom; ?>
+            <?php echo $produit['nom']; ?>
         </h1>
         <p>
             <?php echo "$prix_ttc_formate € (TTC)"; ?> 
         </p>
         <p>
-            <?php afficher_stock($qtt_stock); ?>
+            <?php afficher_stock($produit['qtt_stock']); ?>
         </p>
         <?php 
-            if ($sustain_pedal) echo '<p>Possède une pédale de sustain.</p>'; 
+            if (isset($produit['sustain_pedal']) && $produit['sustain_pedal']) 
+                echo '<p>Possède une pédale de sustain.</p>'; 
         ?>
         <?php 
             afficher_mensualites($prix_ttc, $prix_ttc_formate);
