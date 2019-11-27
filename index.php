@@ -1,27 +1,22 @@
-<?php include_once 'data.php'; ?>
+<?php 
+    include_once 'data.php'; 
+    include_once 'utilities.php'; 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Accueil</title>
-</head>
-<body>
-    <?php include 'menu.php'; ?>
-    <h1>Bienvenue sur notre catalogue</h1>
-    <ul>
-        <?php 
-            foreach ($catalogue as $categorie => $produits) : 
-        ?>
-            <li><?= $categorie ?></li>
-            <ul>
-                <?php foreach ($produits as $produit) : ?>
-                    <li><?= $produit['nom'] ?></li>
-                <?php endforeach; ?>
-            </ul>    
-        <?php endforeach; ?>
-    </ul>
-</body>
-</html>
+    if (!isset($_GET['produit'])) {
+        include 'accueil.php';
+    } else {
+        $id_produit = $_GET['produit'];
+        
+        // On cherche notre produit dans le catalogue via son identifiant
+        foreach ($catalogue as $categorie => $produits) {
+            foreach ($produits as $produit_courant) {
+                if ($id_produit == $produit_courant['id']) {
+                    $produit = $produit_courant;
+                    include 'product.php';
+                }
+            }
+        }
+    }
+?>
+
+

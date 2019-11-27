@@ -20,11 +20,6 @@
         header("Refresh:0; url='" . $uri_parts[0] . "'");
     }
 
-    echo '<pre>';
-    echo 'Valeur du cookie :';
-    print_r($_COOKIE);
-    echo '</pre>';
-
     setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
     
     $timestamp = strtotime($produit['date_dispo']);

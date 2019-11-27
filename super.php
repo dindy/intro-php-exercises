@@ -1,17 +1,25 @@
 <?php
-//On démarre une nouvelle session
-session_start();
+    class Utilisateur {
+        
+        public $nombre_abonnes_objet = 0;
+        public static $nombre_abonnes_classe = 0;
 
-/*On utilise session_id() pour récupérer l'id de session s'il existe.
-Si l'id de session n'existe pas, session_id() renevoie une chaine de caractères vide.*/
-$id_session = session_id();
+        public function abonnerUtilisateur() {
+            $this->nombre_abonnes_objet++;
+            self::$nombre_abonnes_classe++;
+        }
+    }
 
-if($id_session){
-    echo 'ID de session (récupéré via session_id()) : <br>'
-    .$id_session. '<br>';
-}
-echo '<br><br>';
-if(isset($_COOKIE['PHPSESSID'])){
-    echo 'ID de session (récupéré via $_COOKIE) : <br>';
-    print_r($_COOKIE);
-}
+    $utilisateur1 = new Utilisateur();
+    $utilisateur2 = new Utilisateur();
+
+    $utilisateur1->abonnerUtilisateur();
+    $utilisateur2->abonnerUtilisateur();
+
+    echo $utilisateur1->nombre_abonnes_objet;
+    echo '<br>';
+    echo $utilisateur2->nombre_abonnes_objet;
+    echo '<br>';
+    echo Utilisateur::$nombre_abonnes_classe;    
+    
+    // echo Utilisateur::$nombre_abonnes;    
