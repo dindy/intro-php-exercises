@@ -9,6 +9,3 @@
         }
     ?>
 </ul>
-
-
-http://localhost/intro-php-exercises/?produit=1

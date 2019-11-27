@@ -14,69 +14,32 @@
         } else {
             setcookie('wish', $_GET['wish'], $timestamp_expiration); 
         }
-        
+
+
         // On doit rafraichir la page (sans renvoyer les paramètres) pour appliquer les cookies
         $uri_parts = explode('?', $_SERVER['REQUEST_URI']);
-        header("Refresh:0; url='" . $uri_parts[0] . "'");
+        $params = explode('&', $uri_parts[1]);
+        header("Refresh:0; url='" . $uri_parts[0] . "?" . $params[1] . "'");
     }
-
-    setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
-    
-    $timestamp = strtotime($produit['date_dispo']);
-    $date_fr = strftime('%x', $timestamp);
-    $timestamp_courant = time();
-    
-    // On veut le prix TTC
-    $prix_ttc = calcul_prix_ttc($produit['prix_ht'], $produit['tx_tva']);
-
-    // On veut 2 décimales après la virgule pour le prix
-    $prix_ttc_formate = number_format_fr($prix_ttc);
-
-    include_once 'utilities.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Accueil</title>
-        <style>
-            table.paiement > tbody > tr:nth-last-child(1) > td {
-                font-weight: bold;
-            }
-            .sombre {
-                background-color: #dedede;
-            }
-        </style>
-    </head>
-    <body>
-        <?php include 'menu.php'; ?>
-        <h1>
-            <?php echo $produit['nom']; ?>
-        </h1>
-        <p>
-            <?php echo "$prix_ttc_formate € (TTC)"; ?> 
-        </p>
-        <p>
-            <?php afficher_stock($produit['qtt_stock']); ?>
-        </p>
-        <?php 
-            if (isset($produit['sustain_pedal']) && $produit['sustain_pedal']) 
-                echo '<p>Possède une pédale de sustain.</p>'; 
-        ?>
-        <?php 
-            afficher_mensualites($prix_ttc, $prix_ttc_formate);
-        ?>
-        <p>
-            <?php if($timestamp_courant - $timestamp > 0) : ?>
-                Disponible depuis le <?= $date_fr ?></p>
-            <?php else : ?>
-                Mise à disposition dans <?= nb_jours_entre_timestamps($timestamp, $timestamp_courant); ?> jours.
-            <?php endif ?>
-        </p>
 
-        <a href="?wish=<?= $produit['nom'] ?>">Ajouter à la wishlist</a>
+
+        <h1><?php echo $produit->getNom(); ?></h1>
+        
+        <p><?php echo $produit->getPrixTtcFr() . " € (TTC)"; ?> </p>
+
+        <p><?php $produit->afficherStock(); ?></p>
+
+        <?php 
+            if ($produit->getCategoryName() === 'Pianos' && $produit->hasSustainPedal())
+                echo '<p>Possède une pédale de sustain.</p>';
+        ?>
+        
+        <?php $produit->afficherEcheancier(); ?>
+        
+        <p><?php $produit->afficherBlocDateDispo(); ?></p>
+
+        <a href="?wish=<?= $produit->getNom() ?>&produit=<?= $produit->getId() ?>">Ajouter à la wishlist</a>
         
         <!-- On affiche la wish list si un cookie est présent -->
         <?php if (isset($_COOKIE['wish'])) : ?>
@@ -97,5 +60,3 @@
                 <?php endforeach; ?>
             </table>
         <?php endif ?>
-    </body>
-</html>
