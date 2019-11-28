@@ -23,21 +23,20 @@
     catch(PDOException $e){
         echo "Erreur : " . $e->getMessage();
     }    
-
-    // var_dump($categories);
-    // var_dump($produits);
 ?>
 
 <h1>Bienvenue sur notre catalogue</h1>
 <ul>
     <!-- Liste des produits par catégorie -->
     <?php 
-        foreach ($catalogue as $categorie => $produits) : 
+        foreach ($categories as $categorie) : 
     ?>
-        <li><?= $categorie ?></li>
+        <li><?= $categorie['nom'] ?></li>
         <ul>
             <?php foreach ($produits as $produit) : ?>
-                <li><?= $produit['nom'] ?></li>
+                <?php if ($produit['nom_cat'] === $categorie['nom']) : ?>   
+                    <li><?= $produit['nom_produit'] ?></li>
+                <?php endif; ?>
             <?php endforeach; ?>
         </ul>    
     <?php endforeach; ?>
