@@ -1,36 +1,13 @@
 <?php 
-    try {
-        $sql = "SELECT * FROM categorie";
-        $req = $conn->prepare($sql);
-        $req->execute();
-        $categories = $req->fetchAll(PDO::FETCH_ASSOC);
-
-        $sql = "SELECT 
-            *, 
-            p.nom as nom_produit, 
-            c.nom AS nom_cat 
-        FROM 
-            produit AS p 
-        INNER JOIN 
-            categorie AS c 
-        ON 
-            p.categorie_id = c.id";
-
-        $req = $conn->prepare($sql);
-        $req->execute();
-        $produits = $req->fetchAll(PDO::FETCH_ASSOC);      
-    }
-    catch(PDOException $e){
-        echo "Erreur : " . $e->getMessage();
-    }    
+    $categories = getCategories($conn);
+    $produits = getProduitsAndCategories($conn);
 ?>
 
 <h1>Bienvenue sur notre catalogue</h1>
+
+<!-- Liste des produits par catégorie -->
 <ul>
-    <!-- Liste des produits par catégorie -->
-    <?php 
-        foreach ($categories as $categorie) : 
-    ?>
+    <?php foreach ($categories as $categorie) : ?>
         <li><?= $categorie['nom'] ?></li>
         <ul>
             <?php foreach ($produits as $produit) : ?>
