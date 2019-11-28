@@ -1,5 +1,6 @@
 <h1>Bienvenue sur notre catalogue</h1>
 <ul>
+    <!-- Liste des produits par catégorie -->
     <?php 
         foreach ($catalogue as $categorie => $produits) : 
     ?>

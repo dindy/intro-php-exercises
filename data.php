@@ -18,16 +18,16 @@ $catalogue = [
             'tx_tva' => 20,            
             'sustain_pedal' => false,
             'date_dispo' => '11/17/2019'       
-            ]        
-        ],
-        'accessoires' => [
-            [
-                'id' => 3,
-                'nom' => 'Casque JBL T500 Noir',
-                'prix_ht' => 949.00,
-                'qtt_stock' => 4,
-                'tx_tva' => 20,
-                'date_dispo' => '12/15/2019'
-            ]
+        ]        
+    ],
+    'accessoires' => [
+        [
+            'id' => 3,
+            'nom' => 'Casque JBL T500 Noir',
+            'prix_ht' => 949.00,
+            'qtt_stock' => 4,
+            'tx_tva' => 20,
+            'date_dispo' => '12/15/2019'
         ]
+    ]
 ];

@@ -32,7 +32,6 @@ class Produit {
     }
 
     public function afficherBlocDateDispo() {
-        
         $timestamp_courant = time();
         $timestamp = $this->getDateDispoTimestamp();
 
@@ -72,7 +71,6 @@ class Produit {
     }    
 
     public function afficherEcheancier() {
-
         if ($this->getPrixTtc() > 500) {
             echo '<h2>Paiement en plusieurs fois :</h2>';
             
