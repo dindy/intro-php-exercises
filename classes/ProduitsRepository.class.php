@@ -65,4 +65,22 @@ class ProduitsRepository {
         }
     }
 
+    public function enregistrer(Produit $produit) {
+        try {        
+            $sql = "INSERT INTO produit (nom, prix_ht, tx_tva, sustain_pedal, qtt_stock, date_dispo, categorie_id) 
+                VALUES(:nom, :prix_ht, :tx_tva, :sustain_pedal, :qtt_stock, :date_dispo, :categorie_id)";
+            $req = $this->db_connexion->prepare($sql);
+            $req->bindParam(':nom', $produit->nom);
+            $req->bindParam(':prix_ht', $produit->prix_ht);
+            $req->bindParam(':tx_tva', $produit->tx_tva);
+            $req->bindParam(':sustain_pedal', $produit->sustain_pedal);
+            $req->bindParam(':qtt_stock', $produit->qtt_stock);
+            $req->bindParam(':date_dispo', $produit->date_dispo);
+            $req->bindParam(':categorie_id', $produit->categorie_id);
+            $req->execute();
+        } catch(PDOException $e){
+            echo "Erreur : " . $e->getMessage();
+        }            
+    }
+
 }

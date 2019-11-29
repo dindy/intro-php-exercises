@@ -2,25 +2,28 @@
 
 class Produit {
     
-    private $id;
+    public $id;
 
-    private $nom;
+    public $nom;
 
-    private $prix_ht;
+    public $prix_ht;
 
-    private $qtt_stock;
+    public $qtt_stock;
 
-    private $tx_tva;
+    public $tx_tva;
 
-    private $date_dispo;
+    public $date_dispo;
+
+    public $categorie_id;
 
     public function __construct($data_product) {
         $this->id = $data_product['id']; 
-        $this->nom = $data_product['nom']; 
+        $this->nom = $data_product['nom_produit']; 
         $this->prix_ht = $data_product['prix_ht'];
         $this->qtt_stock = $data_product['qtt_stock']; 
         $this->tx_tva = $data_product['tx_tva']; 
         $this->date_dispo = $data_product['date_dispo']; 
+        $this->categorie_id = $data_product['categorie_id']; 
     }
 
     public function getId() {

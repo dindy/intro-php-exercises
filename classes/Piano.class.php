@@ -2,7 +2,7 @@
 
 class Piano extends Produit {
     
-    private $sustain_pedal;
+    public $sustain_pedal;
     
     protected $category_name = 'Pianos';
 
