@@ -1,6 +1,6 @@
 <?php 
-    $categories = getCategories($conn);
-    $produits = getProduitsAndCategories($conn);
+    $categories = $categories_repo->getCategories();
+    $produits = $produits_repo->getProduitsAndCategories();
 ?>
 
 <h1>Bienvenue sur notre catalogue</h1>

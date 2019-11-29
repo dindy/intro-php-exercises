@@ -1,5 +1,5 @@
 <?php 
-    $produits = getProduitsAndCategories($conn);
+    $produits = $produits_repo->getProduitsAndCategories();
 ?>
 
 <ul>

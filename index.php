@@ -1,18 +1,22 @@
 <?php 
     setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
 
-    include_once 'data.php'; 
     include_once 'utilities.php'; 
     include_once 'classes/Produit.class.php';
     include_once 'classes/Piano.class.php';
     include_once 'classes/Accessoire.class.php';
+    include_once 'classes/CategoriesRepository.class.php';
+    include_once 'classes/ProduitsRepository.class.php';
     include_once 'local.php';
-
+    
     //On essaie de se connecter
     try{
         $conn = new PDO("mysql:host=$db_host;dbname=catalogue", $db_user, $db_password);
         //On définit le mode d'erreur de PDO sur Exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $produits_repo = new ProduitsRepository($conn);
+        $categories_repo = new CategoriesRepository($conn);
     }
     
     // On capture les exceptions si une exception est lancée 
@@ -57,27 +61,14 @@
         // On récupère l'ID du produit passé en paramètre GET
         $id_produit = $_GET['produit'];
 
-        // On cherche notre produit dans le catalogue via son ID
-        // Puis on crée l'objet correspondant
-        foreach ($catalogue as $categorie => $produits) {
-            foreach ($produits as $produit_courant) {
-                if ($id_produit == $produit_courant['id']) {
-                    switch ($categorie) {
-                        case 'pianos':
-                            $produit = new Piano($produit_courant);
-                            break;                    
-                        case 'accessoires':
-                            $produit = new Accessoire($produit_courant);
-                            break;                    
-                        default:
-                            exit('Catégorie inconnue.');
-                    }
+        // Faire une requête sql pour sélectionner le produit 
+        // correspondant à l'ID passé dans la superglobale $_GET 
+        // (en utilisant la clause WHERE dans une requête préparée)
+        // et retourne un objet Piano ou Acessoire
+        $produit = $produits_repo->getProduitById($id_produit);
 
-                    // On inclut la vue produit
-                    include 'product.php';
-                }
-            }
-        }
+        // Inclure la vue produit
+        include 'product.php';
     }
 ?>
 
