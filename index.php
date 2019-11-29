@@ -8,22 +8,11 @@
     include_once 'classes/CategoriesRepository.class.php';
     include_once 'classes/ProduitsRepository.class.php';
     include_once 'local.php';
-    
-    //On essaie de se connecter
-    try{
-        $conn = new PDO("mysql:host=$db_host;dbname=catalogue", $db_user, $db_password);
-        //On définit le mode d'erreur de PDO sur Exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
-        $produits_repo = new ProduitsRepository($conn);
-        $categories_repo = new CategoriesRepository($conn);
-    }
-    
-    // On capture les exceptions si une exception est lancée 
-    // et on affiche les informations relatives à celle-ci
-    catch(PDOException $e){
-        echo "Erreur : " . $e->getMessage();
-    }    
+
+    $conn = connexion_db($db_host, 'catalogue', $db_user, $db_password);
+    $produits_repo = new ProduitsRepository($conn);
+    $categories_repo = new CategoriesRepository($conn);
+ 
 ?>
 
 <!-- Début du layout global -->
@@ -51,12 +40,8 @@
     // Menu
     include 'menu.php';
     
-    // Accueil
-    if (!isset($_GET['produit'])) {
-        include 'accueil.php';
-
     // Page produit
-    } else {
+    if (isset($_GET['produit'])) {
 
         // On récupère l'ID du produit passé en paramètre GET
         $id_produit = $_GET['produit'];
@@ -69,6 +54,14 @@
 
         // Inclure la vue produit
         include 'product.php';
+        
+    // Accueil client ou Acueil admin
+    } else {
+        if (isset($_COOKIE['user'])) {
+            include 'admin/accueil.php';
+        } else {
+            include 'accueil.php';
+        }
     }
 ?>
 
