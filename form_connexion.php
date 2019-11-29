@@ -1,11 +1,12 @@
 <?php 
     include_once 'local.php';
+    include_once 'utilities.php';
 
     //On essaie de se connecter
     $conn = connexion_db($db_host, 'catalogue', $db_user, $db_password); 
     
     if (!empty($_POST)) {
-        
+
         try{
             $sql = "SELECT * FROM utilisateur WHERE pseudo = :pseudo AND pass = :pass";
             
@@ -18,7 +19,7 @@
             
             if (!empty($user)) {
                 setcookie('user', $user['pseudo']);
-                header("Location: http://localhost/intro-php-exercises/");
+                header("Location: http://localhost/intro-php-exercises/index.php?page_admin=accueil");
                 exit;                
             }   
 

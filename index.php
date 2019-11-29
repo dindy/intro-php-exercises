@@ -54,15 +54,26 @@
 
         // Inclure la vue produit
         include 'product.php';
-        
-    // Accueil client ou Acueil admin
-    } else {
+    
+    // Admin
+    } elseif (isset($_GET['page_admin'])) {
+        // On vérifie que l'utilisateur s'est bien authentifé
         if (isset($_COOKIE['user'])) {
-            include 'admin/accueil.php';
+            // On affiche la page demandée
+            if ($_GET['page_admin'] == 'accueil') {
+                include 'admin/accueil.php';
+            } elseif ($_GET['page_admin'] == 'ajout_produit') {
+                include 'admin/ajout_produit.php';
+            }
         } else {
-            include 'accueil.php';
+            exit('Vous n\'êtes pas authentifié.');
         }
+    
+    // Accueil client 
+    } else {
+        include 'accueil.php';
     }
+
 ?>
 
 <!-- Fin du layout global -->
